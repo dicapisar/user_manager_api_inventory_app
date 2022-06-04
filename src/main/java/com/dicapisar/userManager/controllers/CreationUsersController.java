@@ -2,11 +2,8 @@ package com.dicapisar.userManager.controllers;
 
 import com.dicapisar.userManager.dtos.request.NewUserCreateRequest;
 import com.dicapisar.userManager.dtos.response.NewUserCreatedResponse;
-import com.dicapisar.userManager.exceptions.ErrorCreationNewUserExistingUser;
-import com.dicapisar.userManager.exceptions.SessionErrorException;
-import com.dicapisar.userManager.exceptions.SessionWithOutPermissionException;
+import com.dicapisar.userManager.exceptions.*;
 import com.dicapisar.userManager.services.IUserCreateService;
-import com.dicapisar.userManager.services.UserCreateService;
 import com.dicapisar.userManager.utils.SessionUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,7 +32,8 @@ public class CreationUsersController {
     @PostMapping("/create")
     public ResponseEntity<NewUserCreatedResponse> createNewUser(@RequestBody @Valid NewUserCreateRequest newUser,
                                                                 HttpSession session)
-            throws SessionErrorException, SessionWithOutPermissionException, ErrorCreationNewUserExistingUser {
+            throws SessionErrorException, SessionWithOutPermissionException, ErrorCreationNewUserExistingUserException,
+            UserNotFoundException, ActionNotAllowedException {
 
         ArrayList<String> rolesPermissions = new ArrayList<>(List.of(ADMIN, MANAGER));
 

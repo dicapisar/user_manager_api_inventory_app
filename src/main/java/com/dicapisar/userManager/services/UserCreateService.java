@@ -2,36 +2,39 @@ package com.dicapisar.userManager.services;
 
 import com.dicapisar.userManager.dtos.request.NewUserCreateRequest;
 import com.dicapisar.userManager.dtos.response.NewUserCreatedResponse;
-import com.dicapisar.userManager.exceptions.ErrorCreationNewUserExistingUser;
+import com.dicapisar.userManager.exceptions.ActionNotAllowedException;
+import com.dicapisar.userManager.exceptions.ErrorCreationNewUserExistingUserException;
+import com.dicapisar.userManager.exceptions.UserNotFoundException;
 import com.dicapisar.userManager.models.User;
 import com.dicapisar.userManager.repository.RolRepository;
 import com.dicapisar.userManager.repository.UserRepository;
+import com.dicapisar.userManager.services.external.IUserService;
 import com.dicapisar.userManager.utils.PasswordGenerator;
 import com.dicapisar.userManager.utils.UserUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+
+import static com.dicapisar.userManager.commons.UserManagerConstants.ADMIN;
 
 @Service
 @AllArgsConstructor
 public class UserCreateService implements IUserCreateService{
     private UserRepository userRepository;
     private RolRepository rolRepository;
+    private IUserService userService;
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
     public NewUserCreatedResponse createNewUser(NewUserCreateRequest newUser, Long idUserCreator)
-            throws ErrorCreationNewUserExistingUser {
+            throws ErrorCreationNewUserExistingUserException, UserNotFoundException, ActionNotAllowedException {
 
-        User creator = this.getUserById(idUserCreator);
-        User user = this.getUserByName(newUser.getName());
-        if (user != null) {
-            if (!user.isActive()) {
-                throw new ErrorCreationNewUserExistingUser(newUser.getName(), false);
-            }
-            throw new ErrorCreationNewUserExistingUser(newUser.getName(), true);
-        }
+        User creator = userService.getUserById(idUserCreator);
+
+        this.validateCreationUser(creator, newUser);
 
         String password = PasswordGenerator.getPassword();
 
@@ -40,12 +43,21 @@ public class UserCreateService implements IUserCreateService{
         return UserUtils.toNewUserCreatedResponse(userCreated, password);
     }
 
-    private User getUserById(Long idUser) {
-        return userRepository.findUserById(idUser);
-    }
+    private void validateCreationUser(User userCreator, NewUserCreateRequest newUser)
+            throws ErrorCreationNewUserExistingUserException, ActionNotAllowedException {
 
-    private User getUserByName(String nameUser) {
-        return userRepository.findUserByName(nameUser);
+        User user = userService.getUserByNameWhitOutValidate(newUser.getName());
+
+        if (newUser.getRol() == 1 && !userCreator.getRol().getName().equals(ADMIN)) {
+            throw new ActionNotAllowedException("Only administrator users can create other administrator users.");
+        }
+
+        if (user != null) {
+            if (!user.isActive()) {
+                throw new ErrorCreationNewUserExistingUserException(newUser.getName(), false);
+            }
+            throw new ErrorCreationNewUserExistingUserException(newUser.getName(), true);
+        }
     }
 
     private User createNewUser(NewUserCreateRequest newUser, User userCreator, String password) {
