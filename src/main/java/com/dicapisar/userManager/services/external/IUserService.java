@@ -7,5 +7,6 @@ public interface IUserService {
     User getUserById(Long idUser) throws UserNotFoundException;
     User getUserByName(String nameUser) throws UserNotFoundException;
     User getUserByNameWhitOutValidate(String nameUser);
+    User getUserByIdAndIsActive(Long idUser) throws UserNotFoundException;
 
 }

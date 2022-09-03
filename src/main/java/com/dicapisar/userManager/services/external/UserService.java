@@ -19,6 +19,14 @@ public class UserService implements IUserService {
         return user;
     }
 
+    public User getUserByIdAndIsActive(Long idUser) throws UserNotFoundException {
+        User user = userRepository.findUserById(idUser);
+        if (user == null || !user.isActive()) {
+            throw new UserNotFoundException(generateMessage("id", idUser.toString()));
+        }
+        return user;
+    }
+
     public User getUserByName(String nameUser) throws UserNotFoundException {
         User user = userRepository.findUserByName(nameUser);
         if (user == null) {
