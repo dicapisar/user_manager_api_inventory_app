@@ -30,7 +30,7 @@ public class User {
     @Column(name = "use_creation_date")
     private LocalDateTime creationDate;
 
-    @Column(name = "update_date")
+    @Column(name = "use_update_date")
     private LocalDateTime updateDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
