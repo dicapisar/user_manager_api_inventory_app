@@ -66,6 +66,7 @@ public class UserCreateService implements IUserCreateService{
         user.setCreator(userCreator);
         user.setActive(true);
         user.setCreationDate(LocalDateTime.now());
+        user.setUpdateDate(LocalDateTime.now());
         user.setName(newUser.getName());
         user.setPassword(this.generateNewPassword(password));
         user.setRol(rolRepository.findRolById(newUser.getRol()));
