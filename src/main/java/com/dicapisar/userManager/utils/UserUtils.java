@@ -1,8 +1,8 @@
 package com.dicapisar.userManager.utils;
 
 import com.dicapisar.userManager.dtos.response.NewUserCreatedResponse;
+import com.dicapisar.userManager.dtos.response.UserInfoDTO;
 import com.dicapisar.userManager.models.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserUtils {
 
@@ -10,5 +10,9 @@ public class UserUtils {
 
         return new NewUserCreatedResponse(user.getId(), user.getName(), password,
                 user.getRol().getId(), user.getRol().getName());
+    }
+
+    public static UserInfoDTO toUserInfoDTO(User user) {
+        return new UserInfoDTO(user.getId(), user.getName(), user.getRol().getName());
     }
 }

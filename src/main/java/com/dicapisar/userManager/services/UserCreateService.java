@@ -8,7 +8,6 @@ import com.dicapisar.userManager.exceptions.UserNotFoundException;
 import com.dicapisar.userManager.models.User;
 import com.dicapisar.userManager.repository.RolRepository;
 import com.dicapisar.userManager.repository.UserRepository;
-import com.dicapisar.userManager.services.external.IUserService;
 import com.dicapisar.userManager.utils.PasswordGenerator;
 import com.dicapisar.userManager.utils.UserUtils;
 import lombok.AllArgsConstructor;
