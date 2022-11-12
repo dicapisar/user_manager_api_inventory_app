@@ -4,7 +4,6 @@ import com.dicapisar.userManager.exceptions.ActionNotAllowedException;
 import com.dicapisar.userManager.exceptions.UserNotFoundException;
 import com.dicapisar.userManager.models.User;
 import com.dicapisar.userManager.repository.UserRepository;
-import com.dicapisar.userManager.services.external.IUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
