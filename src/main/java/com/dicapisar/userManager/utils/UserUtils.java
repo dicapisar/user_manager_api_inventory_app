@@ -13,6 +13,12 @@ public class UserUtils {
     }
 
     public static UserInfoResponse toUserInfoDTO(User user) {
-        return new UserInfoResponse(user.getId(), user.getName(), user.getRol().getName());
+        return new UserInfoResponse(
+                user.getId(),
+                user.getName(),
+                user.getRol().getName(),
+                user.getCreationDate(),
+                user.getUpdateDate()
+        );
     }
 }
