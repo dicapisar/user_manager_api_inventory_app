@@ -1,6 +1,6 @@
 package com.dicapisar.userManager.controllers;
 
-import com.dicapisar.userManager.dtos.response.UserInfoDTO;
+import com.dicapisar.userManager.dtos.response.UserInfoResponse;
 import com.dicapisar.userManager.exceptions.SessionErrorException;
 import com.dicapisar.userManager.exceptions.SessionWithOutPermissionException;
 import com.dicapisar.userManager.services.IUserService;
@@ -22,12 +22,12 @@ import static com.dicapisar.userManager.utils.SessionUtils.validateSessionHavePe
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
-public class UsersController {
+public class UserController {
 
     private IUserService userService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<UserInfoDTO>> getUserList(HttpSession session) throws SessionErrorException, SessionWithOutPermissionException {
+    public ResponseEntity<List<UserInfoResponse>> getUserList(HttpSession session) throws SessionErrorException, SessionWithOutPermissionException {
         ArrayList<String> rolesPermissions = new ArrayList<>(List.of(ADMIN));
 
         validateSessionExist(session);

@@ -1,6 +1,6 @@
 package com.dicapisar.userManager.services;
 
-import com.dicapisar.userManager.dtos.response.UserInfoDTO;
+import com.dicapisar.userManager.dtos.response.UserInfoResponse;
 import com.dicapisar.userManager.exceptions.UserNotFoundException;
 import com.dicapisar.userManager.models.User;
 
@@ -11,6 +11,6 @@ public interface IUserService {
     User getUserByName(String nameUser) throws UserNotFoundException;
     User getUserByNameWhitOutValidate(String nameUser);
     User getUserByIdAndIsActive(Long idUser) throws UserNotFoundException;
-    List<UserInfoDTO> getUsersList();
+    List<UserInfoResponse> getUsersList();
 
 }

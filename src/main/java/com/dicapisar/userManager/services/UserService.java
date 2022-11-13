@@ -1,6 +1,6 @@
 package com.dicapisar.userManager.services;
 
-import com.dicapisar.userManager.dtos.response.UserInfoDTO;
+import com.dicapisar.userManager.dtos.response.UserInfoResponse;
 import com.dicapisar.userManager.exceptions.UserNotFoundException;
 import com.dicapisar.userManager.models.User;
 import com.dicapisar.userManager.repository.UserRepository;
@@ -46,9 +46,9 @@ public class UserService implements IUserService {
     }
 
     @Transactional
-    public List<UserInfoDTO> getUsersList() {
+    public List<UserInfoResponse> getUsersList() {
         List<User> userList = userRepository.getUsersListWithStatusActivateTrue();
-        List<UserInfoDTO> userInfoDTOList = new ArrayList<>();
+        List<UserInfoResponse> userInfoDTOList = new ArrayList<>();
 
         userList.forEach(user -> userInfoDTOList.add(UserUtils.toUserInfoDTO(user)));
 
